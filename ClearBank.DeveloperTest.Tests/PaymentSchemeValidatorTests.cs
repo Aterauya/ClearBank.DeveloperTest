@@ -2,6 +2,8 @@
 using ClearBank.DeveloperTest.Validators;
 using NUnit.Framework;
 
+namespace ClearBank.DeveloperTest.Tests;
+
 [TestFixture]
 public class PaymentSchemeValidatorTests
 {
