@@ -1,5 +1,4 @@
-﻿using ClearBank.DeveloperTest.Data;
-using ClearBank.DeveloperTest.Types;
+﻿using ClearBank.DeveloperTest.Types;
 using ClearBank.DeveloperTest.Validators;
 using System.Configuration;
 
@@ -9,20 +8,8 @@ namespace ClearBank.DeveloperTest.Services
     {
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
-            var dataStoreType = ConfigurationManager.AppSettings["DataStoreType"];
-
-            Account account = null;
-
-            if (dataStoreType == "Backup")
-            {
-                var accountDataStore = new BackupAccountDataStore();
-                account = accountDataStore.GetAccount(request.DebtorAccountNumber);
-            }
-            else
-            {
-                var accountDataStore = new AccountDataStore();
-                account = accountDataStore.GetAccount(request.DebtorAccountNumber);
-            }
+            var dataStore = DataStoreFactory.GetDataStore(ConfigurationManager.AppSettings["DataStoreType"]);
+            var account = dataStore.GetAccount(request.DebtorAccountNumber);
 
             var factory = new PaymentSchemeValidatorFactory();
             var validator = factory.GetValidator(request.PaymentScheme);
@@ -36,16 +23,7 @@ namespace ClearBank.DeveloperTest.Services
             {
                 account.Balance -= request.Amount;
 
-                if (dataStoreType == "Backup")
-                {
-                    var accountDataStore = new BackupAccountDataStore();
-                    accountDataStore.UpdateAccount(account);
-                }
-                else
-                {
-                    var accountDataStore = new AccountDataStore();
-                    accountDataStore.UpdateAccount(account);
-                }
+                dataStore.UpdateAccount(account);
             }
 
             return result;
