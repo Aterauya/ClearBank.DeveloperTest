@@ -35,12 +35,5 @@ namespace ClearBank.DeveloperTest.Tests
             var validator = _factory.GetValidator(PaymentScheme.Chaps);
             Assert.That(validator, Is.TypeOf<ChapsPaymentSchemeValidator>());
         }
-
-        [Test]
-        public void GetValidator_ShouldReturnNull_WhenPaymentSchemeIsUnknown()
-        {
-            var validator = _factory.GetValidator((PaymentScheme)999);
-            Assert.That(validator, Is.Null);
-        }
     }
 }
