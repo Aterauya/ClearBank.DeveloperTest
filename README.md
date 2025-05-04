@@ -1,3 +1,8 @@
+# Initial thoughts
+There's a switch with multiple if statements inside of it, this looks like an ideal candidate for the strategy pattern.
+
+The code where it gets the account data store is repeated and can be shortened (this can be injected via DI in a console or web api project)
+
 # Things to do:
 1. Refactor the payment types to the strategy pattern
 2. Generate the strategies using a factory pattern
